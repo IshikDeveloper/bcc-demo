@@ -1,0 +1,126 @@
+@font-face {
+    font-family: "Code Next BI";
+    src: url(code_next/CodeNext-Trial-BlackItalic.otf) format('opentype');
+}
+@font-face {
+    font-family: "Code Next RI";
+    src: url(code_next/CodeNext-Trial-RegularItalic.otf) format('opentype');
+}
+@font-face {
+    font-family: "Code Next EBI";
+    src: url(code_next/CodeNext-Trial-ExtraBoldItalic.otf) format('opentype');
+}
+@font-face {
+    font-family: "Code Next BoI";
+    src: url(code_next/CodeNext-Trial-BoldItalic.otf) format('opentype');
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Code Next RI', sans-serif;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url('coding1.jpg') no-repeat center center;
+    background-size: cover;
+}
+
+.header {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.page {
+    width: 90%;
+    max-width: 600px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.heading1 {
+    font-family: 'Code Next BI';
+    color: rgb(0, 97, 64);
+    margin-bottom: 10px;
+}
+
+.paragraph {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.input-box {
+    width: 80%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 2px solid rgb(0, 97, 64);
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.grade-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.grade-btn {
+    background: rgb(0, 97, 64);
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.grade-btn:hover {
+    background: rgb(0, 80, 50);
+}
+
+.grade-btn.selected {
+    background: rgb(255, 193, 7);
+    color: black;
+}
+
+.warning {
+    font-size: 14px;
+    color: red;
+    margin-bottom: 10px;
+}
+
+.begin {
+    background-color: rgb(0, 97, 64);
+    color: white;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+    width: 80%;
+    margin-top: 10px;
+}
+
+.begin:disabled {
+    background: gray;
+    cursor: not-allowed;
+}
+
+.begin:hover:not(:disabled) {
+    background: rgb(0, 80, 50);
+}
