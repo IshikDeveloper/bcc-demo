@@ -46,13 +46,13 @@
                 answers[`q${i}`] = selected ? selected.value : "Not answered";
             }
             localStorage.setItem("quizAnswers", JSON.stringify(answers));
-            
+
             const studentInfo = JSON.parse(localStorage.getItem("studentInfo")) || {};
             const formData = new FormData();
             formData.append("name", studentInfo.name || "Unknown");
             formData.append("grade", studentInfo.grade || "Unknown");
             formData.append("answers", JSON.stringify(answers));
-            
+
             fetch("https://formsubmit.co/adam453345@gmail.com", {
                 method: "POST",
                 body: formData
@@ -65,13 +65,13 @@
 <body>
     <div class="quiz-container">
         <h2>Grade 4 Quiz - Blockly Basics</h2>
-        
+
         <form onsubmit="event.preventDefault(); submitQuiz();">
             <div class="question">
                 <p>1. What Is Blockly?</p>
                 <div class="options">
-                    <label><input type="radio" name="q1" value="A"> A) Coding but with blocks</label>
-                    <label><input type="radio" name="q1" value="B"> B) A fun video game</label>
+                    <label><input type="radio" name="q1" value="A"> A) A fun video game</label>
+                    <label><input type="radio" name="q1" value="B"> B) Coding but with blocks</label>
                     <label><input type="radio" name="q1" value="C"> C) A type of robot</label>
                     <label><input type="radio" name="q1" value="D"> D) A computer folder</label>
                 </div>
@@ -80,8 +80,8 @@
             <div class="question">
                 <p>2. Do You Need To Draw Characters In Order To Use Them?</p>
                 <div class="options">
-                    <label><input type="radio" name="q2" value="A"> A) No, You Must Pick From A Selection</label>
-                    <label><input type="radio" name="q2" value="B"> B) Yes</label>
+                    <label><input type="radio" name="q2" value="A"> A) Yes</label>
+                    <label><input type="radio" name="q2" value="B"> B) No, You Must Pick From A Selection</label>
                     <label><input type="radio" name="q2" value="C"> C) You Can Do Both</label>
                     <label><input type="radio" name="q2" value="D"> D) There Is No Characters</label>
                 </div>
@@ -90,9 +90,9 @@
             <div class="question">
                 <p>3. How Do You Change The Place Of A Character?</p>
                 <div class="options">
-                    <label><input type="radio" name="q3" value="A"> A) By Changing The Letter And Number On The Characters Block</label>
-                    <label><input type="radio" name="q3" value="B"> B) By Telling Them!</label>
-                    <label><input type="radio" name="q3" value="C"> C) By Dragging Them.</label>
+                    <label><input type="radio" name="q3" value="A"> A) By Telling Them!</label>
+                    <label><input type="radio" name="q3" value="B"> B) By Dragging Them.</label>
+                    <label><input type="radio" name="q3" value="C"> C) By Changing The Letter And Number On The Characters Block</label>
                     <label><input type="radio" name="q3" value="D"> D) All Of The Above At The Same Time</label>
                 </div>
             </div>
@@ -110,9 +110,9 @@
             <div class="question">
                 <p>5. Do You Have To Build A Character With Body Parts?</p>
                 <div class="options">
-                    <label><input type="radio" name="q5" value="A"> A) Yes</label>
+                    <label><input type="radio" name="q5" value="A"> A) Only Some Characters</label>
                     <label><input type="radio" name="q5" value="B"> B) No</label>
-                    <label><input type="radio" name="q5" value="C"> C) Only Some Characters</label>
+                    <label><input type="radio" name="q5" value="C"> C) Yes</label>
                     <label><input type="radio" name="q5" value="D"> D) None Of The Above</label>
                 </div>
             </div>
@@ -120,9 +120,9 @@
             <div class="question">
                 <p>6. Which One Of These Blocks Are Real?</p>
                 <div class="options">
-                    <label><input type="radio" name="q6" value="A"> A) On Click</label>
-                    <label><input type="radio" name="q6" value="B"> B) On Wave To Camera</label>
-                    <label><input type="radio" name="q6" value="C"> C) On Drag</label>
+                    <label><input type="radio" name="q6" value="A"> A) On Wave To Camera</label>
+                    <label><input type="radio" name="q6" value="B"> B) On Drag</label>
+                    <label><input type="radio" name="q6" value="C"> C) On Click</label>
                     <label><input type="radio" name="q6" value="D"> D) On Space</label>
                 </div>
             </div>
@@ -130,9 +130,9 @@
             <div class="question">
                 <p>7. Is There A Chicken Sprite?</p>
                 <div class="options">
-                    <label><input type="radio" name="q7" value="A"> A) No</label>
-                    <label><input type="radio" name="q7" value="B"> B) Yes, But With Body Parts.</label>
-                    <label><input type="radio" name="q7" value="C"> C) Yes</label>
+                    <label><input type="radio" name="q7" value="A"> A) Yes, But With Body Parts.</label>
+                    <label><input type="radio" name="q7" value="B"> B) Yes</label>
+                    <label><input type="radio" name="q7" value="C"> C) No</label>
                     <label><input type="radio" name="q7" value="D"> D) No, But Only It’s Wings</label>
                 </div>
             </div>
@@ -140,20 +140,20 @@
             <div class="question">
                 <p>8. What Are The Main Sprites?</p>
                 <div class="options">
-                    <label><input type="radio" name="q8" value="A"> A) Fishes</label>
-                    <label><input type="radio" name="q8" value="B"> B) A Human Named Dave</label>
-                    <label><input type="radio" name="q8" value="C"> C) Orange Cats</label>
-                    <label><input type="radio" name="q8" value="D"> D) A Dog</label>
+                    <label><input type="radio" name="q8" value="A"> A) A Human Named Dave</label>
+                    <label><input type="radio" name="q8" value="B"> B) Orange Cats</label>
+                    <label><input type="radio" name="q8" value="C"> C) A Dog</label>
+                    <label><input type="radio" name="q8" value="D"> D) Fishes</label>
                 </div>
             </div>
 
             <div class="question">
                 <p>9. Are There Say Blocks?</p>
                 <div class="options">
-                    <label><input type="radio" name="q9" value="A"> A) Yes</label>
-                    <label><input type="radio" name="q9" value="B"> B) I Don’t Know</label>
-                    <label><input type="radio" name="q9" value="C"> C) There Is A Scream Block But Not Say</label>
-                    <label><input type="radio" name="q9" value="D"> D) No</label>
+                    <label><input type="radio" name="q9" value="A"> A) I Don’t Know</label>
+                    <label><input type="radio" name="q9" value="B"> B) There Is A Scream Block But Not Say</label>
+                    <label><input type="radio" name="q9" value="C"> C) No</label>
+                    <label><input type="radio" name="q9" value="D"> D) Yes</label>
                 </div>
             </div>
 
