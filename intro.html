@@ -1,92 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <title>Quiz Introduction</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="styles.css" />
+  <title>Quiz Introduction</title>
 </head>
 <body>
-    <div class="header">
-        <div class="page">
-            <h1 class="heading1">THE BEST CODER CONTEST</h1>
-            <p class="paragraph">Before you begin, please enter your details:</p>
-            
-            <label for="name" class="paragraph">Your Name:</label>
-            <input type="text" id="name" class="input-box" placeholder="Enter your name" required>
-            
-            <p class="paragraph">Select your grade:</p>
-            <div class="grade-buttons">
-                <button class="grade-btn" data-grade="4">Grade 4</button>
-                <button class="grade-btn" data-grade="5">Grade 5</button>
-                <button class="grade-btn" data-grade="6">Grade 6</button>
-                <button class="grade-btn" data-grade="7">Grade 7</button>
-                <button class="grade-btn" data-grade="8">Grade 8</button>
-                <button class="grade-btn" data-grade="9">Grade 9</button>
-                <button class="grade-btn" data-grade="10">Grade 10</button>
-                <button class="grade-btn" data-grade="11">Grade 11</button>
-                <button class="grade-btn" data-grade="Adam">Adam</button>
-            </div>
+  <div class="header">
+    <div class="page">
+      <h1 class="heading1">THE BEST CODER CONTEST</h1>
+      <p class="paragraph">Before you begin, please enter your details:</p>
 
-            <p class="warning">⚠ NOTE: This is a demo, this is not a real quiz but testing.</p>
-            <label>
-                <input type="checkbox" id="agree"> I agree.</input>
-            </label>
-            
-            <button id="startQuiz" class="begin" disabled>Start Quiz</button>
-        </div>
+      <label for="name" class="paragraph">Your Name:</label>
+      <input type="text" id="name" class="input-box" placeholder="Enter your name" required />
+
+      <p class="paragraph">Select your grade:</p>
+      <div class="grade-buttons">
+        <button class="grade-btn" data-grade="4">Grade 4</button>
+        <button class="grade-btn" data-grade="5">Grade 5</button>
+        <button class="grade-btn" data-grade="6">Grade 6</button>
+        <button class="grade-btn" data-grade="7">Grade 7</button>
+        <button class="grade-btn" data-grade="8">Grade 8</button>
+        <button class="grade-btn" data-grade="9">Grade 9</button>
+        <button class="grade-btn" data-grade="10">Grade 10</button>
+        <button class="grade-btn" data-grade="11">Grade 11</button>
+        <button class="grade-btn" data-grade="Adam">Adam</button>
+      </div>
+
+      <p class="warning">⚠ NOTE: This is a demo version, and the quiz will not affect anything.</p>
+      <label>
+        <input type="checkbox" id="agree"> I agree. </input>
+      </label>
+
+      <button id="startQuiz" class="begin" disabled>Start Quiz</button>
     </div>
-    
-    <script>
-        let selectedGrade = null;
+  </div>
 
-        // Load saved name and grade from localStorage if available
-        window.onload = function () {
-            const savedName = localStorage.getItem('quizName');
-            const savedGrade = localStorage.getItem('quizGrade');
+  <script>
+    let selectedGrade = null;
 
-            if (savedName) {
-                document.getElementById('name').value = savedName;
-            }
+    // Restore from localStorage
+    window.onload = function () {
+      const savedName = localStorage.getItem("quizName");
+      const savedGrade = localStorage.getItem("quizGrade");
 
-            if (savedGrade) {
-                selectedGrade = savedGrade;
-                document.querySelectorAll('.grade-btn').forEach(button => {
-                    if (button.getAttribute('data-grade') === savedGrade) {
-                        button.classList.add('selected');
-                    } else {
-                        button.classList.remove('selected');
-                    }
-                });
-            }
+      if (savedName) {
+        document.getElementById("name").value = savedName;
+      }
 
-            checkReady(); // update the button if data already exists
-        };
-
-        // Grade button click logic
-        document.querySelectorAll('.grade-btn').forEach(button => {
-            button.addEventListener('click', function() {
-                selectedGrade = this.getAttribute('data-grade');
-                document.querySelectorAll('.grade-btn').forEach(btn => btn.classList.remove('selected'));
-                this.classList.add('selected');
-                checkReady();
-            });
+      if (savedGrade) {
+        selectedGrade = savedGrade;
+        document.querySelectorAll(".grade-btn").forEach((btn) => {
+          if (btn.getAttribute("data-grade") === savedGrade) {
+            btn.classList.add("selected");
+          } else {
+            btn.classList.remove("selected");
+          }
         });
-        
-        document.getElementById('agree').addEventListener('change', checkReady);
-        document.getElementById('name').addEventListener('input', checkReady);
+      }
 
-        function checkReady() {
-            const name = document.getElementById('name').value.trim();
-            const agreed = document.getElementById('agree').checked;
-            document.getElementById('startQuiz').disabled = !(name && selectedGrade && agreed);
-        }
+      checkReady();
+    };
 
-        document.getElementById('startQuiz').addEventListener('click', function() {
-            localStorage.setItem('quizName', document.getElementById('name').value.trim());
-            localStorage.setItem('quizGrade', selectedGrade);
-            window.location.href = 'quiz.html';
-        });
-    </script>
+    // Grade button logic
+    document.querySelectorAll(".grade-btn").forEach((button) => {
+      button.addEventListener("click", function () {
+        selectedGrade = this.getAttribute("data-grade");
+        document.querySelectorAll(".grade-btn").forEach((btn) => btn.classList.remove("selected"));
+        this.classList.add("selected");
+        checkReady();
+      });
+    });
+
+    // Checkbox and name input
+    document.getElementById("agree").addEventListener("change", checkReady);
+    document.getElementById("name").addEventListener("input", checkReady);
+
+    // Enable/disable the button
+    function checkReady() {
+      const name = document.getElementById("name").value.trim();
+      const agreed = document.getElementById("agree").checked;
+      const startBtn = document.getElementById("startQuiz");
+      startBtn.disabled = !(name && selectedGrade && agreed);
+    }
+
+    // Save and go to quiz
+    document.getElementById("startQuiz").addEventListener("click", function () {
+      localStorage.setItem("quizName", document.getElementById("name").value.trim());
+      localStorage.setItem("quizGrade", selectedGrade);
+      window.location.href = "quiz.html";
+    });
+  </script>
 </body>
 </html>
