@@ -23,12 +23,14 @@
                 <button class="grade-btn" data-grade="7">Grade 7</button>
                 <button class="grade-btn" data-grade="8">Grade 8</button>
                 <button class="grade-btn" data-grade="9">Grade 9</button>
+                <button class="grade-btn" data-grade="10">Grade 10</button>
+                <button class="grade-btn" data-grade="11">Grade 11</button>
                 <button class="grade-btn" data-grade="Adam">Adam</button>
             </div>
 
-            <p class="warning">⚠ NOTE: This Is A Demo Website, And You Must Understand That The Quiz Will Not Start.</p>
+            <p class="warning">⚠ NOTE: This is a demo, this is not a real quiz but testing.</p>
             <label>
-                <input type="checkbox" id="agree"> I Understand.
+                <input type="checkbox" id="agree"> I agree.</input>
             </label>
             
             <button id="startQuiz" class="begin" disabled>Start Quiz</button>
@@ -38,6 +40,30 @@
     <script>
         let selectedGrade = null;
 
+        // Load saved name and grade from localStorage if available
+        window.onload = function () {
+            const savedName = localStorage.getItem('quizName');
+            const savedGrade = localStorage.getItem('quizGrade');
+
+            if (savedName) {
+                document.getElementById('name').value = savedName;
+            }
+
+            if (savedGrade) {
+                selectedGrade = savedGrade;
+                document.querySelectorAll('.grade-btn').forEach(button => {
+                    if (button.getAttribute('data-grade') === savedGrade) {
+                        button.classList.add('selected');
+                    } else {
+                        button.classList.remove('selected');
+                    }
+                });
+            }
+
+            checkReady(); // update the button if data already exists
+        };
+
+        // Grade button click logic
         document.querySelectorAll('.grade-btn').forEach(button => {
             button.addEventListener('click', function() {
                 selectedGrade = this.getAttribute('data-grade');
