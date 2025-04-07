@@ -51,7 +51,8 @@ html, body {
     border-radius: 15px;
     text-align: center;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    overflow-y: scroll;
+        overflow-y: auto; /* Adds vertical scrollbar when content overflows */
+    max-height: 80vh; /* Optional: Sets a max height to control when the scrollbar appears */
 }
 
 .heading1 {
