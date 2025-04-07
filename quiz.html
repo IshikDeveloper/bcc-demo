@@ -13,7 +13,9 @@
         })();
 
         // Function to submit the quiz answers
-        function submitQuiz() {
+        function submitQuiz(event) {
+            event.preventDefault(); // Prevent the form from submitting the default way
+
             const answers = {};
             // Collect all answers from the quiz
             for (let i = 1; i <= 10; i++) {
@@ -46,7 +48,7 @@
     <div class="header">
         <div class="page">
             <h1 class="heading1">Grade 4 Quiz - Blockly Basics</h1>
-            <form onsubmit="event.preventDefault(); submitQuiz();">
+            <form onsubmit="submitQuiz(event)">
                 <!-- Question 1 -->
                 <div class="question">
                     <p class="paragraph">1. What Is Blockly?</p>
@@ -156,7 +158,7 @@
                 </div>
 
                 <!-- Submit Button -->
-                <button onclick="submitQuiz()" type="submit" class="begin">Submit</button>
+                <button type="submit" class="begin">Submit</button>
             </form>
         </div>
     </div>
