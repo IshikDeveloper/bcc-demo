@@ -5,13 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grade 4 Quiz - Blockly Basics</title>
     <link rel="stylesheet" href="styles.css">
-    <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+</script>
+<script type="text/javascript">
+   (function(){
+      emailjs.init({
+        publicKey: "QdiTs9Qj0zWV0JbCu",
+      });
+   })();
+</script>
     <script>
-        // Initialize EmailJS with your user ID
-        (function(){
-            emailjs.init("user_QdiTs9Qj0zWV0JbCu");
-        })();
-
         // Function to submit the quiz answers
         function submitQuiz(event) {
             event.preventDefault(); // Prevent the form from submitting the default way
