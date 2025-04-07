@@ -5,7 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grade 4 Quiz - Blockly Basics</title>
     <link rel="stylesheet" href="styles.css">
-    <script>
+    <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script type="text/javascript">
+        // Initialize EmailJS with your user ID
+        (function(){
+            emailjs.init('user_QdiTs9Qj0zWV0JbCu');  // Replace with your actual user ID from EmailJS
+        })();
+
         function submitQuiz() {
             const answers = {};
             for (let i = 1; i <= 10; i++) {
@@ -15,17 +21,24 @@
             localStorage.setItem("quizAnswers", JSON.stringify(answers));
 
             const studentInfo = JSON.parse(localStorage.getItem("studentInfo")) || {};
-            const formData = new FormData();
-            formData.append("name", studentInfo.name || "Unknown");
-            formData.append("grade", studentInfo.grade || "Unknown");
-            formData.append("answers", JSON.stringify(answers));
+            
+            // Prepare data to send with EmailJS
+            const emailData = {
+                name: studentInfo.name || "Unknown",
+                grade: studentInfo.grade || "Unknown",
+                answers: JSON.stringify(answers)
+            };
 
-            fetch("https://formsubmit.co/adam453345@gmail.com", {
-                method: "POST",
-                body: formData
-            }).then(() => {
-                alert("Your answers have been submitted!");
-            }).catch(err => console.error("Submission failed", err));
+            // Send data via EmailJS
+            emailjs.send('service_bestcodercontest', 'template_co3qy56', emailData)
+                .then(function(response) {
+                    console.log('Success!', response.status, response.text);
+                    alert("Your answers have been submitted!");
+                    window.close()
+                }, function(error) {
+                    console.log('Failed...', error);
+                    alert("There was an issue with your submission. Please try again.");
+                });
         }
     </script>
 </head>
