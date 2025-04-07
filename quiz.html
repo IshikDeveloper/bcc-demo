@@ -38,7 +38,7 @@
             formData.append("answers", JSON.stringify(answers));
 
             // Send form data to EmailJS
-            emailjs.sendForm('service_bestcodercontest', 'template_co3qy56', formData)
+            emailjs.sendForm('service_bestcodercontest', 'template_co3qy56', document.getElementById('quizForm'))
                 .then(() => {
                     alert("Your answers have been submitted!");
                 }).catch(err => {
