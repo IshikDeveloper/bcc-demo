@@ -30,6 +30,7 @@ html, body {
     align-items: center;
     background: url('coding1.jpg') no-repeat center center;
     background-size: cover;
+    position: fixed;
 }
 
 .header {
