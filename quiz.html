@@ -30,19 +30,17 @@
       localStorage.setItem("quizAnswers", JSON.stringify(answers));
 
       // Get student info
-      const studentInfo = JSON.parse(localStorage.getItem("studentInfo")) || {
-        name: "Unknown",
-        grade: "Unknown"
-      };
+      const name = localStorage.getItem("quizName") || "Unknown";
+      const grade = localStorage.getItem("quizGrade") || "Unknown";
 
       const message = {
         username: "submits",
         embeds: [{
-          title: `Quiz Submission - ${studentInfo.name}`,
+          title: `Quiz Submission - ${name}`,
           color: 3447003,
           fields: [
-            { name: "Name", value: studentInfo.name, inline: true },
-            { name: "Grade", value: studentInfo.grade, inline: true },
+            { name: "Name", value: name, inline: true },
+            { name: "Grade", value: grade, inline: true },
             ...Object.entries(answers).map(([q, a]) => ({
               name: q.toUpperCase(),
               value: a,
