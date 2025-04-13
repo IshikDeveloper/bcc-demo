@@ -1,170 +1,185 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grade 4 Quiz - Blockly Basics</title>
-    <link rel="stylesheet" href="styles.css">
-    <script type="text/javascript"
-        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
-</script>
-<script type="text/javascript">
-   (function(){
-      emailjs.init({
-        publicKey: "QdiTs9Qj0zWV0JbCu",
-      });
-   })();
-</script>
-    <script>
-        // Function to submit the quiz answers
-        function submitQuiz(event) {
-            event.preventDefault(); // Prevent the form from submitting the default way
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grade 4 Quiz - Blockly Basics</title>
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    // DISCORD WEBHOOK URL (replace with your actual webhook URL)
+    const webhookURL = "https://discord.com/api/webhooks/1360977409226051614/9OXLtYqDjncPho6wRsq42we1_MpiExUttDooxOGDWqKJFI3f28zWFLbEsbyEK9Rep8r-";
 
-            const answers = {};
-            // Collect all answers from the quiz
-            for (let i = 1; i <= 10; i++) {
-                const selected = document.querySelector(`input[name="q${i}"]:checked`);
-                answers[`q${i}`] = selected ? selected.value : "Not answered";
-            }
+    function submitQuiz(event) {
+      event.preventDefault();
 
-            // Save answers to localStorage
-            localStorage.setItem("quizAnswers", JSON.stringify(answers));
+      const answers = {};
+      let missing = [];
 
-            // Get student info from localStorage
-            const studentInfo = JSON.parse(localStorage.getItem("studentInfo")) || {};
-            const formData = new FormData();
-            formData.append("name", studentInfo.name || "Unknown");
-            formData.append("grade", studentInfo.grade || "Unknown");
-            formData.append("answers", JSON.stringify(answers));
+      for (let i = 1; i <= 10; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        if (!selected) missing.push(i);
+        answers[`q${i}`] = selected ? selected.value : "Not answered";
+      }
 
-            // Send form data to EmailJS
-            emailjs.sendForm('service_bestcodercontest', 'template_co3qy56', document.getElementById('quizForm'))
-                .then(() => {
-                    alert("Your answers have been submitted!");
-                }).catch(err => {
-                    console.error("Submission failed", err);
-                    alert("There was an error submitting your answers. Please try again.");
-                });
+      if (missing.length > 0) {
+        alert(`Please answer all questions before submitting. Missing: ${missing.join(", ")}`);
+        return;
+      }
+
+      // Save answers to localStorage
+      localStorage.setItem("quizAnswers", JSON.stringify(answers));
+
+      // Get student info
+      const studentInfo = JSON.parse(localStorage.getItem("studentInfo")) || {
+        name: "Unknown",
+        grade: "Unknown"
+      };
+
+      const message = {
+        username: "submits",
+        embeds: [{
+          title: `Quiz Submission - ${studentInfo.name}`,
+          color: 3447003,
+          fields: [
+            { name: "Name", value: studentInfo.name, inline: true },
+            { name: "Grade", value: studentInfo.grade, inline: true },
+            ...Object.entries(answers).map(([q, a]) => ({
+              name: q.toUpperCase(),
+              value: a,
+              inline: false
+            }))
+          ]
+        }]
+      };
+
+      fetch(webhookURL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(message)
+      })
+      .then(res => {
+        if (res.ok) {
+          alert("Your answers have been submitted!");
+          window.close(); // Auto-close tab after confirmation
+        } else {
+          alert("Error submitting. Try again later.");
         }
-    </script>
+      })
+      .catch(err => {
+        console.error("Discord submission failed:", err);
+        alert("Error submitting. Check console.");
+      });
+    }
+  </script>
 </head>
 <body>
-    <div class="header">
-        <div class="page">
-            <h1 class="heading1">Grade 4 Quiz - Blockly Basics</h1>
-            <form id="quizForm">
-                <!-- Question 1 -->
-                <div class="question">
-                    <p class="paragraph">1. What Is Blockly?</p>
-                    <div class="options">
-                        <label><input type="radio" name="q1" value="A"> A) A fun video game</label><br>
-                        <label><input type="radio" name="q1" value="B"> B) Coding but with blocks</label><br>
-                        <label><input type="radio" name="q1" value="C"> C) A type of robot</label><br>
-                        <label><input type="radio" name="q1" value="D"> D) A computer folder</label>
-                    </div>
-                </div>
-
-                <!-- Question 2 -->
-                <div class="question">
-                    <p class="paragraph">2. Do You Need To Draw Characters In Order To Use Them?</p>
-                    <div class="options">
-                        <label><input type="radio" name="q2" value="A"> A) Yes</label><br>
-                        <label><input type="radio" name="q2" value="B"> B) No, You Must Pick From A Selection</label><br>
-                        <label><input type="radio" name="q2" value="C"> C) You Can Do Both</label><br>
-                        <label><input type="radio" name="q2" value="D"> D) There Is No Characters</label>
-                    </div>
-                </div>
-
-                <!-- Question 3 -->
-                <div class="question">
-                    <p class="paragraph">3. How Do You Change The Place Of A Character?</p>
-                    <div class="options">
-                        <label><input type="radio" name="q3" value="A"> A) By Telling Them!</label><br>
-                        <label><input type="radio" name="q3" value="B"> B) By Dragging Them.</label><br>
-                        <label><input type="radio" name="q3" value="C"> C) By Changing The Letter And Number On The Characters Block</label><br>
-                        <label><input type="radio" name="q3" value="D"> D) All Of The Above At The Same Time</label>
-                    </div>
-                </div>
-
-                <!-- Question 4 -->
-                <div class="question">
-                    <p class="paragraph">4. Can You Change The Color Of A Body Part?</p>
-                    <div class="options">
-                        <label><input type="radio" name="q4" value="A"> A) Yes</label><br>
-                        <label><input type="radio" name="q4" value="B"> B) No</label><br>
-                        <label><input type="radio" name="q4" value="C"> C) Yes But Only Black And White Colors</label><br>
-                        <label><input type="radio" name="q4" value="D"> D) Only For Some Body Parts</label>
-                    </div>
-                </div>
-
-                <!-- Question 5 -->
-                <div class="question">
-                    <p class="paragraph">5. Do You Have To Build A Character With Body Parts?</p>
-                    <div class="options">
-                        <label><input type="radio" name="q5" value="A"> A) Only Some Characters</label><br>
-                        <label><input type="radio" name="q5" value="B"> B) No</label><br>
-                        <label><input type="radio" name="q5" value="C"> C) Yes</label><br>
-                        <label><input type="radio" name="q5" value="D"> D) None Of The Above</label>
-                    </div>
-                </div>
-
-                <!-- Question 6 -->
-                <div class="question">
-                    <p class="paragraph">6. Which One Of These Blocks Are Real?</p>
-                    <div class="options">
-                        <label><input type="radio" name="q6" value="A"> A) On Wave To Camera</label><br>
-                        <label><input type="radio" name="q6" value="B"> B) On Drag</label><br>
-                        <label><input type="radio" name="q6" value="C"> C) On Click</label><br>
-                        <label><input type="radio" name="q6" value="D"> D) On Space</label>
-                    </div>
-                </div>
-
-                <!-- Question 7 -->
-                <div class="question">
-                    <p class="paragraph">7. Is There A Chicken Sprite?</p>
-                    <div class="options">
-                        <label><input type="radio" name="q7" value="A"> A) Yes, But With Body Parts.</label><br>
-                        <label><input type="radio" name="q7" value="B"> B) Yes</label><br>
-                        <label><input type="radio" name="q7" value="C"> C) No</label><br>
-                        <label><input type="radio" name="q7" value="D"> D) No, But Only It’s Wings</label>
-                    </div>
-                </div>
-
-                <!-- Question 8 -->
-                <div class="question">
-                    <p class="paragraph">8. What Are The Main Sprites?</p>
-                    <div class="options">
-                        <label><input type="radio" name="q8" value="A"> A) A Human Named Dave</label><br>
-                        <label><input type="radio" name="q8" value="B"> B) Orange Cats</label><br>
-                        <label><input type="radio" name="q8" value="C"> C) A Dog</label><br>
-                        <label><input type="radio" name="q8" value="D"> D) Fishes</label>
-                    </div>
-                </div>
-
-                <!-- Question 9 -->
-                <div class="question">
-                    <p class="paragraph">9. Are There Say Blocks?</p>
-                    <div class="options">
-                        <label><input type="radio" name="q9" value="A"> A) No</label><br>
-                        <label><input type="radio" name="q9" value="B"> B) I Don’t Know</label><br>
-                        <label><input type="radio" name="q9" value="C"> C) There Is A Scream Block But Not Say</label><br>
-                        <label><input type="radio" name="q9" value="D"> D) Yes</label>
-                    </div>
-                </div>
-
-                <!-- Question 10 -->
-                <div class="question">
-                    <p class="paragraph">10. True Or False – Can You Make Mistakes Sometimes?</p>
-                    <div class="options">
-                        <label><input type="radio" name="q10" value="A"> A) True</label><br>
-                        <label><input type="radio" name="q10" value="B"> B) False</label>
-                    </div>
-                </div>
-
-                <!-- Submit Button -->
-                <button onclick="submitQuiz(event)" type="button" class="begin">Submit</button>
-            </form>
+  <div class="header">
+    <div class="page">
+      <h1 class="heading1">Grade 4 Quiz - Blockly Basics</h1>
+      <form id="quizForm">
+        <!-- Questions Below -->
+        <div class="question">
+          <h2>1. What Is Blockly?</h2>
+          <div class="options">
+            <label><input type="radio" name="q1" value="A"> A) A fun video game</label><br>
+            <label><input type="radio" name="q1" value="B"> B) Coding but with blocks</label><br>
+            <label><input type="radio" name="q1" value="C"> C) A type of robot</label><br>
+            <label><input type="radio" name="q1" value="D"> D) A computer folder</label>
+          </div>
         </div>
+
+        <div class="question">
+          <h2>2. Do You Need To Draw Characters In Order To Use Them?</h2>
+          <div class="options">
+            <label><input type="radio" name="q2" value="A"> A) Yes</label><br>
+            <label><input type="radio" name="q2" value="B"> B) No, You Must Pick From A Selection</label><br>
+            <label><input type="radio" name="q2" value="C"> C) You Can Do Both</label><br>
+            <label><input type="radio" name="q2" value="D"> D) There Is No Characters</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <h2>3. How Do You Change The Place Of A Character?</h2>
+          <div class="options">
+            <label><input type="radio" name="q3" value="A"> A) By Telling Them!</label><br>
+            <label><input type="radio" name="q3" value="B"> B) By Dragging Them.</label><br>
+            <label><input type="radio" name="q3" value="C"> C) By Changing The Letter And Number On The Characters Block</label><br>
+            <label><input type="radio" name="q3" value="D"> D) All Of The Above At The Same Time</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <h2>4. Can You Change The Color Of A Body Part?</h2>
+          <div class="options">
+            <label><input type="radio" name="q4" value="A"> A) Yes</label><br>
+            <label><input type="radio" name="q4" value="B"> B) No</label><br>
+            <label><input type="radio" name="q4" value="C"> C) Yes But Only Black And White Colors</label><br>
+            <label><input type="radio" name="q4" value="D"> D) Only For Some Body Parts</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <h2>5. Do You Have To Build A Character With Body Parts?</h2>
+          <div class="options">
+            <label><input type="radio" name="q5" value="A"> A) Only Some Characters</label><br>
+            <label><input type="radio" name="q5" value="B"> B) No</label><br>
+            <label><input type="radio" name="q5" value="C"> C) Yes</label><br>
+            <label><input type="radio" name="q5" value="D"> D) None Of The Above</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <h2>6. Which One Of These Blocks Are Real?</h2>
+          <div class="options">
+            <label><input type="radio" name="q6" value="A"> A) On Wave To Camera</label><br>
+            <label><input type="radio" name="q6" value="B"> B) On Drag</label><br>
+            <label><input type="radio" name="q6" value="C"> C) On Click</label><br>
+            <label><input type="radio" name="q6" value="D"> D) On Space</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <h2>7. Is There A Chicken Sprite?</h2>
+          <div class="options">
+            <label><input type="radio" name="q7" value="A"> A) Yes, But With Body Parts.</label><br>
+            <label><input type="radio" name="q7" value="B"> B) Yes</label><br>
+            <label><input type="radio" name="q7" value="C"> C) No</label><br>
+            <label><input type="radio" name="q7" value="D"> D) No, But Only It’s Wings</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <h2>8. What Are The Main Sprites?</h2>
+          <div class="options">
+            <label><input type="radio" name="q8" value="A"> A) A Human Named Dave</label><br>
+            <label><input type="radio" name="q8" value="B"> B) Orange Cats</label><br>
+            <label><input type="radio" name="q8" value="C"> C) A Dog</label><br>
+            <label><input type="radio" name="q8" value="D"> D) Fishes</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <h2>9. Are There Say Blocks?</h2>
+          <div class="options">
+            <label><input type="radio" name="q9" value="A"> A) No</label><br>
+            <label><input type="radio" name="q9" value="B"> B) I Don’t Know</label><br>
+            <label><input type="radio" name="q9" value="C"> C) There Is A Scream Block But Not Say</label><br>
+            <label><input type="radio" name="q9" value="D"> D) Yes</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <h2>10. True Or False – Can You Make Mistakes Sometimes?</h2>
+          <div class="options">
+            <label><input type="radio" name="q10" value="A"> A) True</label><br>
+            <label><input type="radio" name="q10" value="B"> B) False</label>
+          </div>
+        </div>
+
+        <!-- Submit -->
+        <button onclick="submitQuiz(event)" type="button" class="begin">Submit</button>
+      </form>
     </div>
+  </div>
 </body>
 </html>
