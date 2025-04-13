@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grade 5 - Blockly Intermediate</title>
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    // DISCORD WEBHOOK URL (replace with your actual webhook URL)
+    const webhookURL = "https://discord.com/api/webhooks/1360977409226051614/9OXLtYqDjncPho6wRsq42we1_MpiExUttDooxOGDWqKJFI3f28zWFLbEsbyEK9Rep8r-";
+
+    function submitQuiz(event) {
+      event.preventDefault();
+
+      const answers = {};
+      let missing = [];
+
+      for (let i = 1; i <= 10; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        if (!selected) missing.push(i);
+        answers[`q${i}`] = selected ? selected.value : "Not answered";
+      }
+
+      if (missing.length > 0) {
+        alert(`Please answer all questions before submitting. Missing: ${missing.join(", ")}`);
+        return;
+      }
+
+      // Save answers to localStorage
+      localStorage.setItem("quizAnswers", JSON.stringify(answers));
+
+      // Get student info
+      const name = localStorage.getItem("quizName") || "Unknown";
+      const grade = localStorage.getItem("quizGrade") || "Unknown";
+
+      const message = {
+        username: "submits",
+        embeds: [{
+          title: `Quiz Submission - ${name}`,
+          color: 3447003,
+          fields: [
+            { name: "Name", value: name, inline: true },
+            { name: "Grade", value: grade, inline: true },
+            ...Object.entries(answers).map(([q, a]) => ({
+              name: q.toUpperCase(),
+              value: a,
+              inline: false
+            }))
+          ]
+        }]
+      };
+
+      fetch(webhookURL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(message)
+      })
+      .then(res => {
+        if (res.ok) {
+          alert("Your answers have been submitted!");
+          window.close(); // Auto-close tab after confirmation
+        } else {
+          alert("Error submitting. Try again later.");
+        }
+      })
+      .catch(err => {
+        console.error("Discord submission failed:", err);
+        alert("Error submitting. Check console.");
+      });
+    }
+  </script>
+</head>
+<body>
+  <div class="header">
+    <div class="page">
+      <h1 class="heading1">Grade 5 - Blockly Intermediate</h1>
+      <form id="quizForm">
+        <!-- Questions Below -->
+        <div class="question">
+          <h2>1. How Many Types Of Move Blocks Are There?</h2>
+          <div class="options">
+            <label><input type="radio" name="q1" value="A"> A) 1</label><br>
+            <label><input type="radio" name="q1" value="B"> B) 2</label><br>
+            <label><input type="radio" name="q1" value="C"> C) 3</label><br>
+            <label><input type="radio" name="q1" value="D"> D) 4</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <h2>2. How To Make Repeated Tasks More Easier?</h2>
+          <div class="options">
+            <label><input type="radio" name="q2" value="A"> A) By Using The Repeat Block</label><br>
+            <label><input type="radio" name="q2" value="B"> B) By Dancing</label><br>
+            <label><input type="radio" name="q2" value="C"> C) By Forcing The Task To Make Itself More Easier</label><br>
+            <label><input type="radio" name="q2" value="D"> D) It's Impossible</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <h2>3. True Or False - Your Can Make Your Character Go Faster?</h2>
+          <div class="options">
+            <label><input type="radio" name="q3" value="A"> A) True</label><br>
+            <label><input type="radio" name="q3" value="B"> B) False</label><br>
+          </div>
+        </div>
+
+        <div class="question">
+          <h2>4. True Or False - You Have To Use Words To Position Sprites?</h2>
+          <div class="options">
+            <label><input type="radio" name="q4" value="A"> A) True</label><br>
+            <label><input type="radio" name="q4" value="B"> B) False</label><br>
+          </div>
+        </div>
+
+        <div class="question">
+          <h2>5. Is it possible to make a skateboarding app using keys on the keyboard?</h2>
+          <div class="options">
+            <label><input type="radio" name="q5" value="A"> A) I Don't Know</label><br>
+            <label><input type="radio" name="q5" value="B"> B) No</label><br>
+            <label><input type="radio" name="q5" value="C"> C) Yes</label><br>
+          </div>
+        </div>
+
+        <div class="question">
+          <h2>6. How do you code?</h2>
+          <div class="options">
+            <label><input type="radio" name="q6" value="A"> A) Using Blocks</label><br>
+            <label><input type="radio" name="q6" value="B"> B) Mind Controlling The Keyboard</label><br>
+            <label><input type="radio" name="q6" value="C"> C) Typing</label><br>
+            <label><input type="radio" name="q6" value="D"> D) None Of The Above</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <h2>7. Pick A Block That Is Real</h2>
+          <div class="options">
+            <label><input type="radio" name="q7" value="A"> A) On Drag</label><br>
+            <label><input type="radio" name="q7" value="B"> B) On Click</label><br>
+            <label><input type="radio" name="q7" value="C"> C) Dance</label><br>
+            <label><input type="radio" name="q7" value="D"> D) Wave</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <h2>8. True Or False - You Have A Screen To Test Your Code</h2>
+          <div class="options">
+            <label><input type="radio" name="q8" value="A"> A) True</label><br>
+            <label><input type="radio" name="q8" value="B"> B) False</label><br>
+          </div>
+        </div>
+
+        <div class="question">
+          <h2>9. Are There Decorations For Sprites?</h2>
+          <div class="options">
+            <label><input type="radio" name="q9" value="A"> A) No</label><br>
+            <label><input type="radio" name="q9" value="B"> B) Yes</label><br>
+            <label><input type="radio" name="q9" value="C"> C) I don't know</label><br>
+            <label><input type="radio" name="q9" value="D"> D) Yes, But Only Some Sprites</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <h2>10. Are There Plane Sprites?</h2>
+          <div class="options">
+            <label><input type="radio" name="q10" value="A"> A) Yes</label><br>
+            <label><input type="radio" name="q10" value="B"> B) No</label><br>
+            <label><input type="radio" name="q10" value="C"> C) Only The Plane's Wings</label>
+          </div>
+        </div>
+
+        <!-- Submit -->
+        <button onclick="submitQuiz(event)" type="button" class="begin">Submit</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

@@ -89,7 +89,7 @@
     document.getElementById("startQuiz").addEventListener("click", function () {
       localStorage.setItem("quizName", document.getElementById("name").value.trim());
       localStorage.setItem("quizGrade", selectedGrade);
-      window.location.href = "quiz.html";
+      window.location.href = `quizes/${selectedGrade}.html`;
     });
   </script>
 </body>
